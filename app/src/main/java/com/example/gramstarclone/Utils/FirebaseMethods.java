@@ -14,6 +14,7 @@ public class FirebaseMethods {
     private Context mContext;
     private String userID;
 
+    
     public FirebaseMethods(Context context){
         mAuth = FirebaseAuth.getInstance();
         mContext = context;
