@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "174507736692",
+    "firebase_url": "https://gramstarclone.firebaseio.com",
+    "project_id": "gramstarclone",
+    "storage_bucket": "gramstarclone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174507736692:android:0350cca4d19aeca04d1b21",
+        "android_client_info": {
+          "package_name": "com.example.gramstarclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174507736692-6mvalhu00jr1g29fauoio3bde66m0414.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gramstarclone",
+            "certificate_hash": "f137add934920c28f012725c7c48c23958122071"
+          }
+        },
+        {
+          "client_id": "174507736692-p5ia5dhk2p07uefte1epkafl78sn4ifc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgZVOK8TzwmtPsKQflnK2mDiySSKvGDsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174507736692-p5ia5dhk2p07uefte1epkafl78sn4ifc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
