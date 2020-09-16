@@ -99,12 +99,14 @@ public class LoginActivity extends AppCompatActivity {
 
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed),
                                                 Toast.LENGTH_SHORT).show();
+                                        mProgressBar.setVisibility(View.GONE);
+                                        mPleaseWait.setVisibility(View.GONE);
                                     } else {
                                         Log.d(TAG, "signInWithEmail: successful login");
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_success), Toast.LENGTH_SHORT).show();
+                                        mProgressBar.setVisibility(View.GONE);
+                                        mPleaseWait.setVisibility(View.GONE);
                                     }
-                                    mProgressBar.setVisibility(View.GONE);
-                                    mPleaseWait.setVisibility(View.GONE);
 
 
                                     // ...
@@ -123,13 +125,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
+
         // If the user is logged in then navigate to HomeActivity and call 'finish()'
         if(mAuth.getCurrentUser() != null){
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
         }
+
+
+        
+
     }
 
     // Setup the firebase auth object
