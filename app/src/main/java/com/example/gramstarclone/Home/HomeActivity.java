@@ -40,10 +40,11 @@ public class HomeActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: starting.");
 
         setupFirebaseAuth();
+
         initImageLoader();
         setupViewPager();
         setupBottomNavigationView();
-        mAuth.signOut();
+
 
 
     }
