@@ -25,13 +25,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivity";
-    private static final int ACTIVTY_NUM = 0;
+    private static final int ACTIVITY_NUM = 0;
 
     private Context mContext = HomeActivity.this;
 
     //firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +43,60 @@ public class HomeActivity extends AppCompatActivity {
         setupFirebaseAuth();
 
         initImageLoader();
-        setupViewPager();
         setupBottomNavigationView();
-
+        setupViewPager();
 
 
     }
-    /*
-    ----------- Firebase ---------------
+
+
+
+    private void initImageLoader(){
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    }
+
+    /**
+     * Responsible for adding the 3 tabs: Camera, Home, Messages
+     */
+    private void setupViewPager(){
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new CameraFragment()); //index 0
+        adapter.addFragment(new HomeFragment()); //index 1
+        adapter.addFragment(new MessagesFragment()); //index 2
+        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_camera);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_action_name);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_arrow);
+    }
+
+    /**
+     * BottomNavigationView setup
+     */
+    private void setupBottomNavigationView(){
+        Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
+        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
+        Menu menu = bottomNavigationViewEx.getMenu();
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        menuItem.setChecked(true);
+    }
+
+
+     /*
+    ------------------------------------ Firebase ---------------------------------------------
      */
 
-
-    // checks to see if the @param 'user' is logged in
+    /**
+     * checks to see if the @param 'user' is logged in
+     * @param user
+     */
     private void checkCurrentUser(FirebaseUser user){
         Log.d(TAG, "checkCurrentUser: checking if user is logged in.");
 
@@ -61,31 +104,31 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(mContext, LoginActivity.class);
             startActivity(intent);
         }
-
-
     }
-
-    // Setup the firebase auth object
+    /**
+     * Setup the firebase auth object
+     */
     private void setupFirebaseAuth(){
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
 
         mAuth = FirebaseAuth.getInstance();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener(){
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                // check if the user is logged in
+                //check if the user is logged in
                 checkCurrentUser(user);
 
-                if (user != null){
+                if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged: signed_in:" + user.getUid());
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged: signed_out");
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
+                // ...
             }
         };
     }
@@ -98,45 +141,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
-        if(mAuthListener != null){
+        if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
-    }
-
-    private void initImageLoader(){
-        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
-        ImageLoader.getInstance().init(universalImageLoader.getConfig());
-    }
-
-    // Responsible for adding the 3 tabs : Camera, Home , Messages
-    private void setupViewPager(){
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CameraFragment()); // index 0
-        adapter.addFragment(new HomeFragment()); // index 1
-        adapter.addFragment(new MessagesFragment()); // index 2
-        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
-        viewPager.setAdapter(adapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_camera);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_action_name);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_arrow);
-    }
-
-
-    // BottomNavigationViw setup
-    private void setupBottomNavigationView(){
-        Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
-        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
-        BottomNavigationViewHelper.enalbeNavigation(mContext, bottomNavigationViewEx);
-        Menu menu = bottomNavigationViewEx.getMenu();
-        MenuItem menuItem = menu.getItem(ACTIVTY_NUM);
-        menuItem.setChecked(true);
     }
 
 }

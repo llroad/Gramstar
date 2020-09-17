@@ -1,6 +1,7 @@
 package com.example.gramstarclone.Profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,7 +24,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 
-public class AccountSettingActivity extends AppCompatActivity {
+public class AccountSettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "AccountSettingActivity";
     private Context mContext;
@@ -37,7 +38,7 @@ public class AccountSettingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accountsettings);
-        mContext = AccountSettingActivity.this;
+        mContext = AccountSettingsActivity.this;
         Log.d(TAG, "onCreate: started.");
         mViewPager = (ViewPager) findViewById(R.id.container);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.relLayout1);
@@ -45,6 +46,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         setupSettingsList();
         setupBottomNavigationView();
         setupFragments();
+        getIncomingIntent();
 
         // setup the backarrow for navigating back to "ProfileActivity"
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
@@ -55,6 +57,15 @@ public class AccountSettingActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void getIncomingIntent(){
+        Intent intent = getIntent();
+
+        if(intent.hasExtra(getString(R.string.calling_activity))){
+            Log.d(TAG, "getIncomingIntent: received incoming intent from " + getString(R.string.profile_activity));
+            setViewPager(pagerAdapter.getFragmentNumber(getString(R.string.edit_profile_fragment)));
+        }
     }
 
     private void setupFragments(){
@@ -97,7 +108,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
         BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
-        BottomNavigationViewHelper.enalbeNavigation(mContext, bottomNavigationViewEx);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVTY_NUM);
         menuItem.setChecked(true);
